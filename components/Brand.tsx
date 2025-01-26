@@ -1,13 +1,30 @@
 import { View, Text } from "react-native";
-import React from "react";
+import React, { useRef } from "react";
 import Animated, { FadeInUp } from "react-native-reanimated";
 import styles from "../app/css/brandStyles";
 import Button from "./Button";
 import { router } from "expo-router";
+import LottieView from "lottie-react-native";
 
 const Brand = () => {
+  const animation = useRef<LottieView>(null);
+
   return (
     <View style={styles.container}>
+      {/* Animation Section */}
+      <Animated.View
+        style={styles.animationContainer}
+        entering={FadeInUp.duration(300).springify()}
+      >
+        <LottieView
+          ref={animation}
+          source={require("../assets/animation/animation.json")}
+          autoPlay
+          loop
+          style={{ width: 300, height: 300 }}
+        />
+      </Animated.View>
+
       {/* Logo/Name Section */}
       <View style={styles.middleContainer}>
         <Animated.View
@@ -28,7 +45,10 @@ const Brand = () => {
       </View>
 
       {/* Buttons Section */}
-      <View style={styles.buttonContainer}>
+      <Animated.View
+        style={styles.buttonContainer}
+        entering={FadeInUp.duration(300).delay(100).springify()}
+      >
         <Text
           style={{
             backgroundColor: "#DF7416",
@@ -47,7 +67,7 @@ const Brand = () => {
         </Text>
         <View style={{ height: 1 }} /> {/* Spacer between buttons */}
         <Button title="Sign In" action={() => router.push("/(tabs)")} />
-      </View>
+      </Animated.View>
     </View>
   );
 };
